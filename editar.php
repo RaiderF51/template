@@ -280,68 +280,38 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+                    <?php
+                        $idR =$_GET['id'];
+                        //HACEMOS INSTANCIAS DEL ARCHIVO PHP
+                        include("conexion.php");
+                        $con = conectar();
+                        //GENERAMOS LA SENTENCIA SQL
+                        $sql = "SELECT * FROM usuario WHERE id='$idR'";
+                        //EJECUTAMOS LA SENTENCIA SQL CON LA CONEXION A BASE DE DATOS
+                        $datos = mysqli_query($con, $sql);
+                        $tabla = mysqli_fetch_array($datos)
+                    ?>
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                    <form action="update.php" method="POST">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">ID</label>
+                            <input type="text" class="form-control" name="id" value="<?php echo $idR; ?>"    aria-describedby="emailHelp">
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>NOMBRE</th>
-                                            <th>APELLIDO</th>
-                                            <th>TELEFONO</th>
-                                            <th>ACCIONES</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>NOMBRE</th>
-                                            <th>APELLIDO</th>
-                                            <th>TELEFONO</th>
-                                            <th>ACCIONES</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <?php
-                                        //HACEMOS INSTANCIAS DEL ARCHIVO PHP
-                                        include("conexion.php");
-                                        $con = conectar();
-                                        //GENERAMOS LA SENTENCIA SQL
-                                        $sql = "SELECT * FROM usuario";
-                                        //EJECUTAMOS LA SENTENCIA SQL CON LA CONEXION A BASE DE DATOS
-                                        $datos = mysqli_query($con, $sql);
-                                        while ($tabla = mysqli_fetch_array($datos)) {
-                                        ?>
-                                            <tr>
-                                                <th><?php echo $tabla['id']; ?></th>
-                                                <th><?php echo $tabla['nombre']; ?></th>
-                                                <th><?php echo $tabla['apellido']; ?></th>
-                                                <th><?php echo $tabla['telefono']; ?></th>
-                                                <th>
-                                                    <a href="editar.php?id=<?php echo $tabla['id']; ?>" class="btn btn-warning btn-circle btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                    </a>
-                                                </th>
-                                            </tr>
-                                        <?php
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" value="<?php echo $tabla['nombre']; ?>"   aria-describedby="emailHelp">
                         </div>
-                    </div>
-
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" name="apellido"  value="<?php echo $tabla['apellido']; ?>"  aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">No. Telefono</label>
+                            <input type="text" class="form-control" name="telefono" value="<?php echo $tabla['telefono']; ?>"   aria-describedby="emailHelp">
+                        </div>
+                       
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </form>
 
                 </div>
                 <!-- /.container-fluid -->
